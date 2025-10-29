@@ -76,13 +76,11 @@
                 console.log('Response status:', response.status);
                 console.log('Response headers:', [...response.headers.entries()]);
                 
-                // Get the raw text first
                 const rawText = await response.text();
                 console.log('Raw response text:', rawText);
                 console.log('Raw response length:', rawText.length);
                 console.log('First 500 chars:', rawText.substring(0, 500));
                 
-                // Try to parse as JSON
                 const result = JSON.parse(rawText);
                 
                 if (result.success) {

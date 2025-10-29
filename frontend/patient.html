@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient List - MedFlex</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold text-gray-800 mb-6">Patient List</h1>
 
-        <!-- Search Box -->
         <div class="mb-4">
             <input type="text" 
                    id="searchInput" 
@@ -20,18 +18,15 @@
                    class="w-full md:w-1/3 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
         </div>
         
-        <!-- Loading indicator -->
         <div id="loading" class="text-center py-4">
             <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500 mx-auto"></div>
             <p class="text-gray-600 mt-2">Loading patients...</p>
         </div>
 
-        <!-- Error message -->
         <div id="error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
             <span id="errorMessage" class="block sm:inline"></span>
         </div>
 
-        <!-- Patient Table -->
         <div class="bg-white shadow-md rounded-lg overflow-x-auto">
             <table id="patientTable" class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -47,26 +42,22 @@
                     </tr>
                 </thead>
                 <tbody id="patientTableBody" class="bg-white divide-y divide-gray-200">
-                    <!-- Data will be populated here -->
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // Global variables
         let patients = [];
         let sortKey = 'Patient_ID';
         let sortDirection = 'asc';
         
-        // DOM elements
         const searchInput = document.getElementById('searchInput');
         const tableBody = document.getElementById('patientTableBody');
         const loadingElement = document.getElementById('loading');
         const errorElement = document.getElementById('error');
         const errorMessageElement = document.getElementById('errorMessage');
 
-        // Fetch and display patients
         async function fetchPatients() {
             try {
                 loadingElement.style.display = 'block';
@@ -88,7 +79,6 @@
             }
         }
 
-        // Display patients in table
         function displayPatients() {
             let filteredPatients = filterPatients();
             sortPatients(filteredPatients);
@@ -124,7 +114,6 @@
             });
         }
 
-        // Filter patients based on search input
         function filterPatients() {
             const searchTerm = searchInput.value.toLowerCase();
             return patients.filter(patient => 
@@ -135,7 +124,6 @@
             );
         }
 
-        // Sort patients
         function sortPatients(patientList) {
             patientList.sort((a, b) => {
                 let valueA = sortKey === 'F_name' ? `${a.F_name} ${a.L_name}` : a[sortKey];
@@ -152,7 +140,6 @@
             });
         }
 
-        // Sort table when clicking headers
         function sortTable(key) {
             if (sortKey === key) {
                 sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
@@ -163,7 +150,6 @@
             displayPatients();
         }
 
-        // Delete patient
         async function deletePatient(id) {
             if (confirm('Are you sure you want to delete this patient?')) {
                 try {
@@ -175,7 +161,6 @@
                         throw new Error('Failed to delete patient');
                     }
 
-                    // Refresh the patient list
                     await fetchPatients();
                 } catch (error) {
                     alert('Error deleting patient: ' + error.message);
@@ -183,24 +168,18 @@
             }
         }
 
-        // Edit patient (placeholder)
         function editPatient(id) {
             alert('Edit patient with ID: ' + id);
-            // Implement edit functionality as needed
         }
 
-        // Format date
         function formatDate(dateString) {
             return new Date(dateString).toLocaleDateString();
         }
 
-        // Event listeners
         searchInput.addEventListener('input', displayPatients);
 
-        // Auto-refresh every 30 seconds
         setInterval(fetchPatients, 30000);
 
-        // Initial load
         fetchPatients();
     </script>
 </body>
